@@ -206,7 +206,8 @@ Transform:
   m_LocalPosition: {x: -14.67, y: 3.61, z: 0}
   m_LocalScale: {x: 2.7460663, y: 0.3203, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 125666463}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &88559085
@@ -280,11 +281,11 @@ Transform:
   m_GameObject: {fileID: 125666462}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0.0000033974643}
-  m_LocalPosition: {x: -0.02, y: 3.2896998, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 0.36415726, y: 3.122073, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 88559084}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!212 &125666464
 SpriteRenderer:
@@ -379,6 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutoff: 45
   bulletPrefab: {fileID: 5438669531591425357, guid: d7a8d110ac8064b33bc7521882170814, type: 3}
+  speed: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,6 +931,5 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 545185740}
   - {fileID: 88559084}
-  - {fileID: 125666463}
   - {fileID: 665502750}
   - {fileID: 1871985055}
