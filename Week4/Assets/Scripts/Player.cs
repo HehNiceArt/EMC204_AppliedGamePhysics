@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     [SerializeField] float playerSpeed = 5f;
     [SerializeField] float ResetCooldown = 3f;
     Rigidbody2D rb;
+
+    bool isVisible = false;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,25 +24,41 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
+        OnBecameInvisible();
     }
     private void OnBecameInvisible()
     {
-        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-    }
+        Vector3 outOfBounds = new Vector3(15, startPos.transform.position.y, 0);
+        if (V3Equal(rb.transform.position, outOfBounds))
+        {
+            isVisible = false;
+            StartCoroutine(ResetPosition());
+        }
 
+    }
+    public bool V3Equal(Vector3 a, Vector3 b)
+    {
+        return Vector3.SqrMagnitude(a - b) < 0.0001;
+    }
     IEnumerator ResetPosition()
     {
-        while (true)
+        while (!isVisible)
         {
             yield return new WaitForSeconds(ResetCooldown);
+            isVisible = true;
             ResetPlayerPosition();
         }
     }
 
     void ResetPlayerPosition()
     {
-        rb.transform.position = startPos.transform.position;
+        if (isVisible)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            rb.transform.position = startPos.transform.position;
+            Vector2 speed = new Vector2(playerSpeed, 0);
+            rb.velocity = speed;
+        }
     }
 }
 

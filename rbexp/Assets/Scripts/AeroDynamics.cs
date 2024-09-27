@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AeroDynamics : MonoBehaviour
+public class rbexp : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float dragCoefficient = 0.5f;
@@ -26,7 +26,6 @@ public class AeroDynamics : MonoBehaviour
         if (rb.velocity.magnitude > 0)
         {
             //dragForce = -0.5f * C_{d} * Q * A * v^2 * v_hat
-
             //C_{d} = drag coefficient
             //Q = density of the fluid, here it's air
             //A = cross section area 
