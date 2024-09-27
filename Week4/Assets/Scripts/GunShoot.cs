@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunShoot : MonoBehaviour
+public class GunShoot : GunCalculations
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] float speed;
+    private void Update()
     {
-        
+        Shoot();
+    }
+    private void FixedUpdate()
+    {
+        TrajectoryArea();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Shoot()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            bullet.SetActive(true);
+            Rigidbody2D bulletRB = bullet.GetComponent<Rigidbody2D>();
+            bulletRB.velocity = new Vector2(0, -speed);
+        }
     }
 }

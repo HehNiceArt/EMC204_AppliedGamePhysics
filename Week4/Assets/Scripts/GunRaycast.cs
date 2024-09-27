@@ -20,11 +20,6 @@ public class GunRaycast : MonoBehaviour
 
         Debug.DrawRay(transform.position, direction, Color.black);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -direction.normalized, distance);
-
-        if (hit.collider != null)
-        {
-            Debug.Log("Hit: " + hit.collider.name);
-        }
     }
 
     private void OnDrawGizmos()

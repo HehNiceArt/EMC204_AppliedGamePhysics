@@ -6,25 +6,21 @@ using UnityEngine;
 public class GunCalculations : MonoBehaviour
 {
     [SerializeField] float cutoff = 45f;
-    [SerializeField] Vector3 fixedDirection = new Vector3(0, -1, 0);
 
-    void Update()
+    public bool TrajectoryArea()
     {
-        TrajectoryArea(fixedDirection);
-    }
-
-    bool TrajectoryArea(Vector3 toTargetArea)
-    {
+        Vector3 toTargetArea = new Vector3(0, -1, 0);
         float downDirection = Vector3.Dot(toTargetArea.normalized, -transform.up);
         float downAngle = Mathf.Acos(downDirection) * Mathf.Rad2Deg;
         return downAngle < cutoff;
     }
     private void OnDrawGizmos()
     {
+        Vector3 toTargetArea = new Vector3(0, -1, 0);
         Gizmos.color = Color.red;
-        Vector3 direction = (fixedDirection - transform.forward).normalized;
+        Vector3 direction = (toTargetArea - transform.forward).normalized;
 
-        Gizmos.DrawLine(transform.position, fixedDirection);
+        Gizmos.DrawLine(transform.position, toTargetArea);
 
         float angleStep = 10f;
         for (float angle = -cutoff; angle <= cutoff; angle += angleStep)
