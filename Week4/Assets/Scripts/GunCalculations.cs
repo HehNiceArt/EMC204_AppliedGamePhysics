@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class GunCalculations : MonoBehaviour
 {
-    [SerializeField] float cutoff = 45f;
+    [SerializeField] public float cutoff = 45f;
 
-    public bool TrajectoryArea()
+    public Quaternion TrajectoryArea()
     {
         Vector3 toTargetArea = new Vector3(0, -1, 0);
         float downDirection = Vector3.Dot(toTargetArea.normalized, -transform.up);
         float downAngle = Mathf.Acos(downDirection) * Mathf.Rad2Deg;
-        return downAngle < cutoff;
+
+        Quaternion rotation = Quaternion.Euler(0, downAngle, 0);
+
+        return rotation;
     }
     private void OnDrawGizmos()
     {
