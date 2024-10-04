@@ -5,28 +5,28 @@ using Unity.Collections;
 
 public class GunRaycast : MonoBehaviour
 {
-    [SerializeField] private float raycastDistance;
     [SerializeField] GameObject targetArea;
+    [SerializeField] GameObject bullet;
+    [SerializeField] LayerMask layerMask;
+    [SerializeField] public float distance;
+    [SerializeField] public float dir;
 
-    private void FixedUpdate()
+    private void Update()
     {
-        RaycasttoTarget();
+        bullet = GameObject.FindGameObjectWithTag("bullet");
+        RaycastToBullet();
+
     }
 
-    void RaycasttoTarget()
+    void RaycastToBullet()
     {
-        Vector3 direction = targetArea.transform.position - transform.position;
-        float distance = direction.magnitude;
+        Vector3 direction = targetArea.transform.position - bullet.transform.position;
+        dir = Vector3.Distance(targetArea.transform.position, bullet.transform.position);
+        distance = direction.magnitude;
 
-        Debug.DrawRay(transform.position, direction, Color.black);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -direction.normalized, distance);
+        layerMask = LayerMask.GetMask("bullet");
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction.normalized, distance, layerMask);
+        Debug.DrawLine(targetArea.transform.position, bullet.transform.position, Color.red);
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.white;
-        Vector3 direction = targetArea.transform.position - transform.position;
-
-        Debug.DrawRay(transform.position, direction, Color.white);
-    }
 }

@@ -1,46 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
+using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class GunShoot : GunCalculations
+public class GunShoot : MonoBehaviour
 {
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] float speed;
-    [SerializeField] float rotationSpeed = 5f;
+    [SerializeField] GameObject barrel;
+    [SerializeField] float bulletSpeed;
+    [SerializeField] float rotationSpeed;
+    Vector3 localAngleA;
+    Vector3 localAngleB;
+    Vector3 newDirection;
+    [SerializeField] public float cooldown;
+    [SerializeField] public bool isFiring;
+    private GameObject bulletPool;
+    [SerializeField] public bool bulletinUse = false;
+
+    GunCalculations gunCalculations;
+    private void Start()
+    {
+        gunCalculations = GetComponent<GunCalculations>();
+        if (gunCalculations == null) return;
+
+        bulletPool = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        bulletPool.SetActive(false);
+    }
     private void Update()
     {
-        Shoot();
+        if (bulletinUse && cooldown <= 0f)
+        {
+            bulletPool.SetActive(false);
+            isFiring = false;
+            bulletinUse = false;
+        }
+        if (!isFiring && cooldown <= 0f)
+        {
+            Shoot();
+        }
+        if (cooldown > 0f)
+        {
+            cooldown -= Time.deltaTime;
+        }
     }
     private void FixedUpdate()
     {
-        TrajectoryArea();
+        GunRotation();
     }
 
-    private void RotateGun()
+    void GunRotation()
     {
-        Quaternion targetRotation = TrajectoryArea();
-        float targetZAngle = targetRotation.eulerAngles.z;
-        Quaternion currentRotation = transform.rotation;
+        localAngleA = gunCalculations.DirectionFromAngle(-gunCalculations.viewAngle / 2, true);
+        localAngleB = gunCalculations.DirectionFromAngle(gunCalculations.viewAngle / 2, true);
 
-        float clampedZAngle = Mathf.Clamp(targetZAngle, -cutoff, cutoff);
-        // Debug.Log("Clamped Z Angle: " + clampedZAngle);
-        float currentZAngle = currentRotation.eulerAngles.z;
-        //Debug.Log("Current Z Angle: " + currentZAngle);
-        float angleDifference = Mathf.DeltaAngle(currentZAngle, clampedZAngle);
-        //Debug.Log("Angle Difference: " + angleDifference);
-        Quaternion newTargetRotation = Quaternion.Euler(currentRotation.eulerAngles.x, currentRotation.eulerAngles.y, currentZAngle + angleDifference);
+        float t = Mathf.PingPong(Time.time * rotationSpeed, 1);
+        newDirection = Vector3.Lerp(return2DVector(localAngleA), return2DVector(localAngleB), t);
+        barrel.transform.up = -newDirection;
+    }
 
-        transform.rotation = Quaternion.RotateTowards(currentRotation, newTargetRotation, rotationSpeed * Time.deltaTime);
+    Vector3 return2DVector(Vector3 viewAngle)
+    {
+        return new Vector3(viewAngle.x, viewAngle.z, 0);
     }
 
     private void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && cooldown <= 0f && !bulletinUse)
         {
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            bullet.SetActive(true);
-            Rigidbody2D bulletRB = bullet.GetComponent<Rigidbody2D>();
-            bulletRB.velocity = new Vector2(0, -speed);
+            bulletPool.SetActive(true);
+            bulletPool.transform.position = barrel.transform.position;
+            bulletPool.transform.rotation = barrel.transform.rotation;
+            Rigidbody2D bulletRB = bulletPool.GetComponent<Rigidbody2D>();
+            Vector2 bulletDir = barrel.transform.up;
+            bulletRB.velocity = bulletDir * -bulletSpeed;
+            isFiring = true;
+            cooldown = 5f;
+            bulletinUse = true;
         }
     }
 }
