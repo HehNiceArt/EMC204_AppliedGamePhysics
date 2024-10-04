@@ -9,7 +9,6 @@ public class GunShoot : GunCalculations
     [SerializeField] float rotationSpeed = 5f;
     private void Update()
     {
-        RotateGun();
         Shoot();
     }
     private void FixedUpdate()
@@ -24,8 +23,11 @@ public class GunShoot : GunCalculations
         Quaternion currentRotation = transform.rotation;
 
         float clampedZAngle = Mathf.Clamp(targetZAngle, -cutoff, cutoff);
+        // Debug.Log("Clamped Z Angle: " + clampedZAngle);
         float currentZAngle = currentRotation.eulerAngles.z;
+        //Debug.Log("Current Z Angle: " + currentZAngle);
         float angleDifference = Mathf.DeltaAngle(currentZAngle, clampedZAngle);
+        //Debug.Log("Angle Difference: " + angleDifference);
         Quaternion newTargetRotation = Quaternion.Euler(currentRotation.eulerAngles.x, currentRotation.eulerAngles.y, currentZAngle + angleDifference);
 
         transform.rotation = Quaternion.RotateTowards(currentRotation, newTargetRotation, rotationSpeed * Time.deltaTime);
