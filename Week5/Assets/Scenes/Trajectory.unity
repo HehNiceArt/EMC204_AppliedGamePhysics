@@ -526,7 +526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   target: {fileID: 1627221359}
-  time: 10
+  time: 1
 --- !u!1 &687307084
 GameObject:
   m_ObjectHideFlags: 0
