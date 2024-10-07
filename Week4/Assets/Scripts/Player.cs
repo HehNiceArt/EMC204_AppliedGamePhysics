@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] float playerSpeed = 5f;
     [SerializeField] float ResetCooldown = 3f;
     Rigidbody2D rb;
+    [SerializeField] GunShoot gun;
 
     bool isVisible = false;
     void Start()
@@ -46,6 +47,8 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(ResetCooldown);
             isVisible = true;
+            gun.cooldown = 0;
+            gun.isFiring = false;
             ResetPlayerPosition();
         }
     }
