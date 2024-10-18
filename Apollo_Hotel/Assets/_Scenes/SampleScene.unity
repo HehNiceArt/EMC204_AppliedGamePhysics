@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -274,7 +274,6 @@ GameObject:
   - component: {fileID: 333015379}
   - component: {fileID: 333015383}
   - component: {fileID: 333015384}
-  - component: {fileID: 333015385}
   - component: {fileID: 333015386}
   m_Layer: 7
   m_Name: Player
@@ -388,7 +387,7 @@ CharacterController:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
@@ -404,28 +403,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333015378}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 526e88118aca94cbc9d8408faf307d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 5
   characterController: {fileID: 333015383}
---- !u!114 &333015385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333015378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93add587112d54c05949de386a8ad200, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateToCenter: 1
-  currentAttractor: {fileID: 1812610277}
-  gravityStrength: 100
 --- !u!54 &333015386
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -769,16 +753,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1812610272}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74fef4f1758874e99a9589c682d2d3f5, type: 3}
+  m_Script: {fileID: 11500000, guid: a8eede6576927d04caecbf059ab011cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attractionLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  gravity: -9.81
-  radius: 25.7
-  AttractedObjects: []
-  attractorTransform: {fileID: 0}
+  force: 0
+  mass: 0
+  gravitationalConstant: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
