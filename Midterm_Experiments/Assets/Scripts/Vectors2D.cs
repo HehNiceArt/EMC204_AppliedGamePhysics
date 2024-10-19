@@ -49,9 +49,9 @@ public class Vectors2D : MonoBehaviour
             Vector2 aToB = tg - pt;
             Vector2 aToBDir = aToB.normalized;
             Gizmos.DrawLine(pt, pt + aToBDir);
-            //Vector2 midpoint = (pt + tg) / 2;
-            //Vector2 offsetVector = aToBDir * offset;
-            //Gizmos.DrawSphere(pt + offsetVector, 0.1f);
+            Vector2 midpoint = (pt + tg) / 2;
+            Vector2 offsetVector = aToBDir * offset;
+            Gizmos.DrawSphere(pt + offsetVector, 0.1f);
         }
     }
 }

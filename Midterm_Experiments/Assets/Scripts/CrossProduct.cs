@@ -3,6 +3,18 @@ using UnityEngine;
 
 public class CrossProduct : MonoBehaviour
 {
+    public Transform target;
+    private void Update()
+    {
+        Vector3 targetDir = (target.position - transform.position).normalized;
+        Vector3 cross = Vector3.Cross(transform.position, targetDir);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            transform.Rotate(cross, 5f * Time.deltaTime);
+        }
+
+    }
     void OnDrawGizmos()
     {
         Vector3 headPos = transform.position;
