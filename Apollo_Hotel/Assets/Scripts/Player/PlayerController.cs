@@ -2,24 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     public float playerSpeed;
-    public CharacterController characterController;
+    public float jumpForce;
+    Rigidbody rb;
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        var camForward = Camera.main.transform.forward;
-        camForward.y = 0;
-        var camRight = Camera.main.transform.right;
-        camRight.y = 0;
-
-        Vector3 movementVector = (camForward * Input.GetAxisRaw("Vertical") + camRight * Input.GetAxisRaw("Horizontal")).normalized * playerSpeed;
-        characterController.SimpleMove(movementVector);
+        float rotationInput = Input.GetAxis("Horizontal");
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(0, rotationInput * playerSpeed * Time.deltaTime, 0));
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            JumpForward();
+        }
+    }
+    void JumpForward()
+    {
+        rb.AddForce(transform.forward * jumpForce, ForceMode.Impulse);
     }
 }
